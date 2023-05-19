@@ -1,0 +1,11 @@
+{
+  "name": "zp",
+  "version": "1.0.0",
+  "description": "Demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server ./domain --host=localtest.me --port=4000 & live-server ./subdomain --host=sub.localtest.me --port=4001"
+  },
+  "author": "tung",
+  "license": "ISC"
+}

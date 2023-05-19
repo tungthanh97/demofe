@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Display</title>
+</head>
+<script src="
+https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
+" async defer></script>
+
+<body onLoad="onLoad()">
+  <h1>Login</h1>
+  <h2>username</h2>
+  <input type="text" id="username">
+   <h2>password</h2>
+  <input type="text" id="password">
+  <button onclick="login()">Login</button>
+  <button onclick="testRequest()">Test Request</button>
+
+  <script>
+    const shareToken = 'test'
+    const onLoad = () =>{
+      console.log(Cookies.get('shareToken'))
+    }
+    const login = async() => {
+      const username = document.getElementById('username').value
+      const password = document.getElementById('password').value
+      document.cookie= "abc=abc"
+      const requestData = await fetch('http://localtest.me:8081/login',{
+        method: 'POST',
+        credentials: 'include',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*",
+          'Cookie': document.cookie
+        },
+        body: JSON.stringify({username,password})
+      }).then(response => response.json()).catch((err) => {
+    console.log(err);
+});
+      console.log(requestData)
+      Cookies.set('shareToken', shareToken, {
+      expires: 7,
+      domain: 'localtest.me',
+    })}
+  </script>
+</body>
+<link rel="stylesheet" href="style.css">
+</html>
