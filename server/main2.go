@@ -1,11 +1,10 @@
 package main
 
 import (
-     "encoding/json"
     "fmt"
     "log"
     "net/http"
-    "github.com/rs/cors"
+    "encoding/json"
 )
 
 type AuthResponse struct {
@@ -17,7 +16,7 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 func loginHandler (w http.ResponseWriter, r *http.Request) {
-    enableCors(&w)
+    // enableCors(&w)
     tokenStr, err := r.Cookie("shareToken") 
     fmt.Println("\nLogged in with cookie token:")
 	  fmt.Println(tokenStr)
@@ -37,16 +36,9 @@ func loginHandler (w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-    mux := http.NewServeMux()   
-    mux.HandleFunc("/login",loginHandler)
 
-     c := cors.New(cors.Options{
-       AllowedOrigins: []string{"http://localtest.me:4000"},  // Update with your frontend domain
-        AllowedMethods: []string{"GET", "POST"},  // Update with allowed HTTP methods
-    })
+    http.HandleFunc("/login", loginHandler);
 
-    handlerWithCORS := c.Handler(mux)
-
-    log.Fatal(http.ListenAndServe("localtest.me:8081", handlerWithCORS))
+    log.Fatal(http.ListenAndServe("localtest.me:8081", nil))
 
 }
