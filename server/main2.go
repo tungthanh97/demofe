@@ -11,12 +11,8 @@ type AuthResponse struct {
     status string
 }
 
-func enableCors(w *http.ResponseWriter) {
-    (*w).Header().Set("Access-Control-Allow-Origin", "*")
-}
 
 func loginHandler (w http.ResponseWriter, r *http.Request) {
-    // enableCors(&w)
     tokenStr, err := r.Cookie("shareToken") 
     fmt.Println("\nLogged in with cookie token:")
 	  fmt.Println(tokenStr)

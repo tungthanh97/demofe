@@ -24,15 +24,12 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
     const login = async() => {
       const username = document.getElementById('username').value
       const password = document.getElementById('password').value
-      document.cookie= "abc=abc"
       const requestData = await fetch('http://localtest.me:8081/login',{
         method: 'POST',
         credentials: 'include',
         headers:{
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          
-          'Cookie': document.cookie
         },
         body: JSON.stringify({username,password})
       }).then(response => response.json()).catch((err) => {
