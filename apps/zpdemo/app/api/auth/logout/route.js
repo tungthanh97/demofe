@@ -12,8 +12,8 @@ export async function GET(req, res) {
 
     res.setHeader('Set-Cookie', serialised);
 
-    return res.status(200).json({ message: 'Successfuly logged out!' });
+    return new Response({ message: 'Successfuly logged out' }, { status: 200, headers: { 'Set-Cookie': serialised } });
   }
 
-  return res.status(401).json({ error: 'Unauthorized' });
+  return new Response({ error: 'Unauthorized' }, { status: 401 });
 }

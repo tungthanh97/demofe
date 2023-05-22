@@ -1,3 +1,5 @@
+import { withNextCors } from "../../../services/middleware/withNextjsCors";
+
 export async function GET(req, res) {
   const { cookies } = req;
 
@@ -10,3 +12,8 @@ export async function GET(req, res) {
 
   return res.status(200).res.json({ data: 'Top secret data!' });
 }
+
+export const POST = withNextCors(async (req, res) => {
+  console.log('test')
+  return new Response({ error: 'authorized' }, { status: 200 });
+})

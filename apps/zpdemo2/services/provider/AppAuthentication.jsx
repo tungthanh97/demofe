@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getCookie, setCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import { loginWithJwtToken } from '../api/apiCall';
 import { Spinner } from '../../components/Spinner';
@@ -9,6 +9,7 @@ import { Spinner } from '../../components/Spinner';
 export function AppAuthentication({ children }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const searchParams = useSearchParams();
 
   const logout = () => {
     console.log('logout');
@@ -29,16 +30,17 @@ export function AppAuthentication({ children }) {
   };
 
   const getTokenFromRoute = () => {
-    const { token } = router.query;
-    return token;
+    console.log('query', searchParams)
+    return searchParams?.token;
   };
 
   useEffect(() => {
     const autoLoginWithJwt = async () => {
       setIsLoading(true);
       try {
-        const jwtTokenFromCookie =
-          getCookie('access-token') ?? getTokenFromRoute;
+        const tokenFromRoute = getTokenFromRoute();
+        if (tokenFromRoute) await setCookie('access-token', tokenFromRoute)
+        const jwtTokenFromCookie = getCookie('access-token');
         console.log('authenticate with jwt token: ' + jwtTokenFromCookie);
 
         if (jwtTokenFromCookie) {

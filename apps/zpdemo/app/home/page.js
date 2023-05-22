@@ -15,6 +15,8 @@ export default function Home() {
       console.error(err);
     }
   };
+  const encodedToken = encodeURIComponent(token)
+  console.log('token', encodedToken)
 
   return (
     <div className="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0">
@@ -27,7 +29,7 @@ export default function Home() {
       </button>
       <a
         target="_blank"
-        href={`http://sub.localtest.me:4201/?token=${token}`}
+        href={`http://sub.localtest.me:4201/?token=${encodedToken}`}
         rel="noopener noreferrer"
       >
         <div>Subdomain</div>

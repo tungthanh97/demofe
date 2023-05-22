@@ -15,8 +15,9 @@ export default function Index() {
       const sessionData = await loginWithUsername(authData);
       console.log('login success', sessionData);
       const jwtToken = sessionData?.data?.['access-token'];
-      await setCookie('access-token', jwtToken, {
+      setCookie('access-token', jwtToken, {
         domain: 'localtest.me',
+        secure: process.env.NODE_ENV === "production"
       });
       localStorage.setItem('isAuthenticated', 'true');
       route.push('/home');

@@ -3,7 +3,7 @@ import { cookies } from 'next/dist/client/components/headers';
 export async function GET(req, res) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('access-token');
-  console.log('call', req.cookies.cookie, accessToken.value);
+  console.log('call', req.cookies.cookie, accessToken?.value);
   if (accessToken?.value === 'Bearer token')
     return new Response({ message: 'Hello' }, { status: 200 });
   return new Response({ error: 'Unauthorized' }, { status: 401 });
