@@ -1,10 +1,11 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
-    "github.com/rs/cors"
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/rs/cors"
 )
 
 type AuthResponse struct {
@@ -31,7 +32,7 @@ func main() {
     mux.HandleFunc("/login",loginHandler)
 
      c := cors.New(cors.Options{
-       AllowedOrigins: []string{"http://localtest.me:4000","http://sub.localtest.me:4000"},  // Update with your frontend domain
+       AllowedOrigins: []string{"http://localtest.me:4000","http://sub.localtest.me:4001"},  // Update with your frontend domain
         AllowedMethods: []string{"GET", "POST"},  // Update with allowed HTTP methods
          AllowCredentials: true,
     })
