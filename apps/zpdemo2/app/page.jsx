@@ -18,7 +18,6 @@ export default function Index() {
       await setCookie('access-token', jwtToken, {
         domain: 'localtest.me',
       });
-      localStorage.setItem('isAuthenticated', 'true');
       route.push('/home');
     } catch (err) {
       console.error(err);

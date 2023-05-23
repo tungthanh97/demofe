@@ -4,33 +4,32 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getCookie, setCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import { loginWithJwtToken } from '../api/apiCall';
-import { Spinner } from '../../components/Spinner';
+
 
 export function AppAuthentication({ children }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
+
+  const redirectWithoutRefresh = (path) =>
+    router.push(path, undefined, { shallow: true });
 
   const logout = () => {
     console.log('logout');
-    localStorage.setItem('isAuthenticated', 'false');
-    setIsLoading(false);
-    router.push('/');
+    redirectWithoutRefresh('/');
   };
 
   const login = () => {
-    localStorage.setItem('isAuthenticated', 'true');
-    router.push('/home');
+    console.log('login');
+    redirectWithoutRefresh('/home');
   };
 
   const getTokenFromRoute = () => {
     console.log('query', searchParams.get('token'));
-    return searchParams.get('token');
+    return searchParams;
   };
 
   useEffect(() => {
     const autoLoginWithJwt = async () => {
-      setIsLoading(true);
       try {
         const tokenFromRoute = getTokenFromRoute();
         if (tokenFromRoute) await setCookie('access-token', tokenFromRoute);
@@ -39,21 +38,21 @@ export function AppAuthentication({ children }) {
 
         if (jwtTokenFromCookie) {
           const userData = await loginWithJwtToken(jwtTokenFromCookie);
-          console.log('logged in with jwt token', userData);
+          console.log('logged in with jwt token', userData.data);
           login();
         } else logout();
       } catch (err) {
         console.error(err);
-        //logout();
+        logout();
       } finally {
         console.log('finish loading');
-        setIsLoading(false);
       }
     };
     console.log('authenticate load');
-    //if (isAuthenticated()) route.push('/home');
     autoLoginWithJwt();
   }, []);
 
-  return isLoading ? <Spinner /> : children;
+  console.log('refreshing authenticate');
+
+  return children;
 }

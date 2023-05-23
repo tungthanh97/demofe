@@ -17,9 +17,8 @@ export default function Index() {
       const jwtToken = sessionData?.data?.['access-token'];
       setCookie('access-token', jwtToken, {
         domain: 'localtest.me',
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === 'production',
       });
-      localStorage.setItem('isAuthenticated', 'true');
       route.push('/home');
     } catch (err) {
       console.error(err);
