@@ -23,15 +23,9 @@ export function AppAuthentication({ children }) {
     router.push('/home');
   };
 
-  const isAuthenticated = () => {
-    const authenticationStatus = localStorage.getItem('isAuthenticated');
-
-    return authenticationStatus === 'true';
-  };
-
   const getTokenFromRoute = () => {
-    console.log('query', searchParams)
-    return searchParams?.token;
+    console.log('query', searchParams.get('token'));
+    return searchParams.get('token');
   };
 
   useEffect(() => {
@@ -39,7 +33,7 @@ export function AppAuthentication({ children }) {
       setIsLoading(true);
       try {
         const tokenFromRoute = getTokenFromRoute();
-        if (tokenFromRoute) await setCookie('access-token', tokenFromRoute)
+        if (tokenFromRoute) await setCookie('access-token', tokenFromRoute);
         const jwtTokenFromCookie = getCookie('access-token');
         console.log('authenticate with jwt token: ' + jwtTokenFromCookie);
 
@@ -50,7 +44,7 @@ export function AppAuthentication({ children }) {
         } else logout();
       } catch (err) {
         console.error(err);
-        logout();
+        //logout();
       } finally {
         console.log('finish loading');
         setIsLoading(false);
