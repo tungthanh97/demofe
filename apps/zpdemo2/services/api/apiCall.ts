@@ -1,10 +1,19 @@
-import { AUTHENTICATION_ENDPOINT } from './endpoints';
-import { authApi } from './apiEngine';
+import { AUTHENTICATION_ENDPOINT, USER_ENDPOINT } from './endpoints';
+import { apiConfigWithAuth } from './apiConfig';
+import axios from 'axios';
 
 export const loginWithUsername = (authData: {
   username: string;
   password: string;
-}) => authApi.post(`${AUTHENTICATION_ENDPOINT}/login`, authData);
+}) =>
+  axios.post(`/${AUTHENTICATION_ENDPOINT}/login`, authData, {
+    headers: apiConfigWithAuth(),
+  });
 
-export const loginWithJwtToken = (token: string) =>
-  authApi.get(`${AUTHENTICATION_ENDPOINT}/verifyToken`);
+export const loginWithJwtToken = () =>
+  axios.get(`${AUTHENTICATION_ENDPOINT}/verifyToken`, {
+    headers: apiConfigWithAuth(),
+  });
+
+export const getUser = () =>
+  axios.get(`${USER_ENDPOINT}`, { headers: apiConfigWithAuth() });

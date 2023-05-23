@@ -1,6 +1,10 @@
+import axios from 'axios';
 import { AppAuthentication } from '../services/provider/AppAuthentication';
 import './global.css';
 import 'tailwindcss/tailwind.css';
+
+axios.defaults.baseURL = 'http://localtest.me:4200/api';
+// console.log('baseURL: ' + process.env.BASE_SERVER_URL);
 
 export const metadata = {
   title: 'Welcome to zpdemo',
